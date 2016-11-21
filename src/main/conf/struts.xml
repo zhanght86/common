@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <constant name="struts.devMode" value="false"/>
+    <constant name="struts.ui.theme" value="simple"/>
+    <constant name="struts.ui.templateDir" value="template"/>
+    <constant name="struts.custom.i18n.resources" value="message"/>
+    <constant name="struts.ui.templateSuffix" value="ftl"/>
+    <constant name="struts.multipart.maxSize" value="100000000000"/>
+    <constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+    <include file="struts_common_platform.xml"/>
+
+    <!--需要权限的-->
+    <package name="admin_common" namespace="/admin/common" extends="platform-default">
+        <!--配置库 -->
+        <action name="DictionaryAction" class="com.sjdf.platform.dictionary.action.DictionaryAction">
+            <result name="list">/WEB-INF/templates/default/dictionary/list.jsp</result>
+            <result name="post">/WEB-INF/templates/default/dictionary/post.jsp</result>
+        </action>
+
+        <!--日志 -->
+        <action name="LogAction" class="com.sjdf.platform.log.action.LogAction">
+            <result name="log">/WEB-INF/templates/default/log/log.jsp</result>
+            <result name="search">/WEB-INF/templates/default/log/search.jsp</result>
+            <result name="list">/WEB-INF/templates/default/log/list.jsp</result>
+        </action>
+
+        <!--邮件或短信模板管理 -->
+        <action name="MessageTemplateAction" class="com.sjdf.platform.messageTemplate.action.MessageTemplateAction">
+            <result name="list">/WEB-INF/templates/default/messageTemplate/list.jsp</result>
+            <result name="post">/WEB-INF/templates/default/messageTemplate/post.jsp</result>
+            <result name="redirectList" type="redirect">MessageTemplateAction!list.action?template.systemType=${template.systemType}&amp;error=${error}</result>
+        </action>
+
+        <!-- 地理位置信息管理 -->
+        <action name="LocationAction" class="com.sjdf.platform.location.action.LocationAction">
+            <result name="list">/WEB-INF/templates/default/location/list.jsp</result>
+            <result name="post">/WEB-INF/templates/default/location/post.jsp</result>
+            <result name="redirectList" type="redirect">LocationAction!list.action?location.code=${location.code}</result>
+        </action>
+
+        <!-- 通知跟踪管理 -->
+        <action name="NotifyTrackAction" class="com.sjdf.platform.notify.action.NotifyTrackAction">
+            <result name="list">/WEB-INF/templates/default/notify/list.jsp</result>
+            <result name="redirectList" type="redirect">NotifyTrackAction!list.action?track.mec=${track.mec}&amp;track.operateType=${track.operateType}&amp;track.status=${track.status}&amp;tipMessage=${tipMessage}</result>
+        </action>
+
+        <!--打印邮件模板 -->
+        <action name="PrintAction" class="com.sjdf.platform.print.action.PrintAction">
+            <result name="list">/WEB-INF/templates/default/print/address/list.jsp</result>
+            <result name="post">/WEB-INF/templates/default/print/address/post.jsp</result>
+            <result name="indirectPrint">/WEB-INF/templates/default/print/print.jsp</result>
+        </action>
+
+        <!--展示信息管理 -->
+        <action name="DisplayInfoAction" class="com.sjdf.platform.check.action.DisplayInfoAction">
+            <result name="list">/WEB-INF/templates/default/displayInfo/display_info_list.jsp</result>
+            <result name="post">/WEB-INF/templates/default/displayInfo/display_info_post.jsp</result>
+            <result name="flushList" type="redirectAction">
+                <param name="actionName">DisplayInfoAction!displayInfoList.action</param>
+                <param name="user">${user}</param>
+                <param name="searchVo.displayInfoContent">${searchVo.displayInfoContent}</param>
+                <param name="searchVo.displayInfoInfoType">${searchVo.displayInfoInfoType}</param>
+                <param name="searchVo.displayInfoOwnerType">${searchVo.displayInfoOwnerType}</param>
+                <param name="searchVo.beginOfupdateDate">${searchVo.beginOfupdateDate}</param>
+                <param name="searchVo.endOfUpdateDate">${searchVo.endOfUpdateDate}</param>
+            </result>
+        </action>
+
+        <!--自动任务-->
+        <action name="AutoTaskAction" class="com.sjdf.platform.autotask.action.AutoTaskAction">
+            <result name="index">/WEB-INF/templates/default/autoTask/index.jsp</result>
+            <result name="list">/WEB-INF/templates/default/autoTask/list.jsp</result>
+        </action>
+
+        <!--页面内容管理-->
+        <action name="PageContentManageAction" class="com.sjdf.platform.pageContent.action.PageContentManageAction">
+            <result name="version_list">/WEB-INF/templates/default/pageContentManage/version_list.jsp</result>
+            <result name="version_copy">/WEB-INF/templates/default/pageContentManage/version_copy.jsp</result>
+            <result name="version_modify">/WEB-INF/templates/default/pageContentManage/version_modify.jsp</result>
+            <result name="content_list">/WEB-INF/templates/default/pageContentManage/list.jsp</result>
+            <result name="index">/WEB-INF/templates/default/pageContentManage/index.jsp</result>
+            <result name="left">/WEB-INF/templates/default/pageContentManage/left.jsp</result>
+            <result name="modify">/WEB-INF/templates/default/pageContentManage/modify.jsp</result>
+
+            <result name="redirect" type="redirectAction">
+                <param name="actionName">PageContentManageAction!list4Node.action</param>
+                <param name="contentManageBean.versionId">${contentManageBean.versionId}</param>
+                <param name="contentManageBean.parentId">${contentManageBean.parentId}</param>
+            </result>
+            <result name="redirect_modify" type="redirectAction">
+                <param name="actionName">PageContentManageAction!nodeInfo.action</param>
+                <param name="databaseId">${databaseId}</param>
+            </result>
+        </action>
+
+        <!-- 附件库管理 -->
+        <action name="AttachmentAction" class="com.sjdf.platform.attachment.action.AttachmentHouseAction">
+            <!-- 附件列表页面 -->
+            <result name="showAttachmentList">/WEB-INF/templates/default/attachment/list.jsp</result>
+            <result name="post">/WEB-INF/templates/default/attachment/post.jsp</result>
+            <result name="afterModify" type="redirectAction">
+                <param name="actionName">AttachmentAction!showAttachmentList.action</param>
+            </result>
+            <result name="delAttachment" type="redirectAction">
+                <param name="actionName">AttachmentAction!showAttachmentList.action</param>
+            </result>
+            <!-- 附件库下载功能 -->
+            <result name="download" type="stream">
+                <param name="contentType">application/${contentType};charset=GBK</param>
+                <!-- 响应头ContentType -->
+                <param name="inputName">inputStream</param>
+                <!-- 文件流 -->
+                <param name="contentDisposition">attachment;filename="${fileName}"</param>
+                <!-- 文件名称 -->
+                <param name="bufferSize">4096</param>
+                <!-- 缓冲区 -->
+            </result>
+        </action>
+
+        <!--首页-->
+        <action name="IndexAction" class="com.sjdf.platform.IndexAction">
+            <result name="index">/WEB-INF/templates/default/index.jsp</result>
+        </action>
+
+        <!--信息接口管理-->
+        <action name="config" class="com.sjdf.platform.message.action.ConfigAction">
+            <result name="list">/WEB-INF/templates/default/message/config/list.jsp</result>
+            <result name="edit">/WEB-INF/templates/default/message/config/edit.jsp</result>
+        </action>
+
+        <!--消息管理-->
+        <action name="message" class="com.sjdf.platform.message.action.MessageAction">
+            <result name="smsList">/WEB-INF/templates/default/message/sms/list.jsp</result>
+            <result name="emailList">/WEB-INF/templates/default/message/email/list.jsp</result>
+            <result name="wechatList">/WEB-INF/templates/default/message/wechat/list.jsp</result>
+            <result name="smsHistory">/WEB-INF/templates/default/message/sms/historyList.jsp</result>
+            <result name="emailHistory">/WEB-INF/templates/default/message/email/historyList.jsp</result>
+            <result name="sms">/WEB-INF/templates/default/message/sms/sms.jsp</result>
+            <result name="email">/WEB-INF/templates/default/message/email/email.jsp</result>
+            <result name="wechat">/WEB-INF/templates/default/message/wechat/wechat.jsp</result>
+            <result name="infoSms">/WEB-INF/templates/default/message/sms/info.jsp</result>
+            <result name="infoEmail">/WEB-INF/templates/default/message/email/info.jsp</result>
+        </action>
+
+        <!--信息接口授权-->
+        <action name="apiAuth" class="com.sjdf.platform.message.action.MessageApiUserAction">
+            <result name="list">/WEB-INF/templates/default/message/user/list.jsp</result>
+            <result name="edit">/WEB-INF/templates/default/message/user/edit.jsp</result>
+        </action>
+
+        <!--信息发送模板管理-->
+        <action name="template" class="com.sjdf.platform.message.action.InfoTemplateAction">
+            <result name="add">/WEB-INF/templates/default/message/template/add.jsp</result>
+            <result name="edit">/WEB-INF/templates/default/message/template/edit.jsp</result>
+        </action>
+    </package>
+
+    <package name="user_common" namespace="/user/common" extends="struts-default">
+        <global-results>
+            <result name="-1" type="redirect">AssociateAction!warn.action?tipMessageUrl=${tipMessageUrl}&amp;tipMessage=${tipMessage}</result>
+            <result name="success">/WEB-INF/templates/default/share/success.jsp</result>
+            <result name="error">/WEB-INF/templates/default/share/error.jsp</result>
+            <result name="warn">/WEB-INF/templates/default/share/warn.jsp</result>
+        </global-results>
+
+        <!--关联信息管理 -->
+        <action name="AssociateAction" class="com.sjdf.platform.associate.action.AssociateAction">
+            <result name="list">/WEB-INF/templates/default/associate/list.jsp</result>
+            <result name="index" type="redirect">AssociateAction!list.action?associate.currentSystemType=${associate.currentSystemType}&amp;associate.currentUser=${associate.currentUser}&amp;vertime=${vertime}&amp;vercode=${vercode}</result>
+        </action>
+
+        <!--自动任务管理-->
+        <action name="AutoTaskAction" class="com.sjdf.platform.autotask.action.AutoTaskAction">
+
+        </action>
+
+        <!--数据中心-->
+        <action name="DataCenterAction" class="com.sjdf.platform.datacenter.action.DataCenterAction">
+            <result name="upload">/WEB-INF/templates/default/datacenter/upload.jsp</result>
+        </action>
+    </package>
+
+    <!--接口-->
+    <package name="api_common" namespace="/api/common" extends="struts-default">
+        <!--配置库 -->
+        <action name="DictionaryAction" class="com.sjdf.platform.api.action.DictionaryAction"/>
+
+        <!--地理位置信息-->
+        <action name="LocationAction" class="com.sjdf.platform.api.action.LocationAction"/>
+
+        <!--邮件短信模板-->
+        <action name="MessageTemplateAction" class="com.sjdf.platform.api.action.MessageTemplateAction">
+            <result name="list" type="redirect">/admin/common/MessageTemplateAction!list.action</result>
+        </action>
+
+        <!--数据模板管理 -->
+        <action name="TemplateAction" class="com.sjdf.platform.dataTemplate.action.TemplateAction">
+            <result name="list">/WEB-INF/templates/default/template/list.jsp</result>
+        </action>
+
+        <!--日志 -->
+        <action name="LogAction" class="com.sjdf.platform.api.action.LogAction">
+            <result name="list">/WEB-INF/templates/default/log/list.jsp</result>
+            <result name="log">/WEB-INF/templates/default/log/log.jsp</result>
+        </action>
+
+        <!--展示信息管理 -->
+        <action name="DisplayInfoAction" class="com.sjdf.platform.api.action.DisplayInfoAction"/>
+
+        <!--非common权限初始化-->
+        <action name="PermissionAction" class="com.sjdf.platform.api.action.PermissionAction"/>
+
+        <!--权限认证接口-->
+        <action name="AuthenticateAction" class="com.sjdf.platform.api.action.AuthenticateAction"/>
+
+        <!--快递和信封打印 -->
+        <action name="ExpressAction" class="com.sjdf.platform.api.action.ExpressAction">
+            <result name="yto">/WEB-INF/templates/default/print/yto/edit.jsp</result>
+            <result name="ems">/WEB-INF/templates/default/print/ems/edit.jsp</result>
+            <result name="sf">/WEB-INF/templates/default/print/sf/edit.jsp</result>
+            <result name="ordinary">/WEB-INF/templates/default/print/ordinary/edit.jsp</result>
+        </action>
+
+        <!-- 页面内容管理  -->
+        <action name="PageContentManageAction" class="com.sjdf.platform.api.action.PageContentManageAction"/>
+        <!-- 附件库管理 -->
+        <action name="AttachmentAction" class="com.sjdf.platform.api.action.AttachmentHouseAction"/>
+
+        <!--信息接口-->
+        <action name="message" class="com.sjdf.platform.api.action.MessageApiAction">
+            <result name="smsList" type="redirect">/admin/common/message!sms.action</result>
+            <result name="emailList" type="redirect">/admin/common/message!email.action</result>
+            <result name="wechatList" type="redirect">/admin/common/message!wechat.action</result>
+        </action>
+
+        <!-- IP信息查询API -->
+        <action name="ipSearch" class="com.sjdf.platform.api.action.IpInfoSearchAction" />
+    </package>
+
+    <!-- 转发服务器 -->
+    <package name="urlforward">
+        <action name="UrlForwardAction" class="com.sjdf.platform.urlforward.action.UrlForwardAction"/>
+    </package>
+
+</struts>

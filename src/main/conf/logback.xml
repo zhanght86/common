@@ -1,0 +1,38 @@
+<configuration debug="true" scan="true">
+	<!-- ******************************文件日志记录开始******************************  -->
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${catalina.home}/logs/${appName}.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>${catalina.home}/logs/${appName}.%i.log.zip</fileNamePattern>
+			<minIndex>1</minIndex>
+			<maxIndex>10</maxIndex>
+		</rollingPolicy>
+
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>10MB</maxFileSize>
+		</triggeringPolicy>
+		<encoder>
+			<pattern>%date{yyyy-MM-dd HH:mm:ss} %thread %logger %level %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="com.sjdf" level="info" additivity="false">
+		<appender-ref ref="FILE" />
+	</logger>
+
+	<logger name="com.sjdf.platform" level="info" additivity="false">
+		<appender-ref ref="FILE" />
+	</logger>
+	<!-- ******************************文件日志记录结束******************************  -->
+
+
+	<!-- ******************************数据库日志记录开始******************************  -->
+	<appender name="logger4DB" class="com.sjdf.platform.log.logger.DBAppender" />
+	
+	<!-- DB日志记录器的设置，additivity="false" 叠加标记为false， 这样它的记录输出仅会被发送到appender "DB"，不会被发送到更高logger 等级关联的appender。其他logger 不受此影响。 -->
+	<logger name="DB" level="info">
+		<appender-ref ref="FILE" />
+		<appender-ref ref="logger4DB" />
+	</logger>
+	<!-- ******************************数据库日志记录结束 ****************************** -->
+</configuration>

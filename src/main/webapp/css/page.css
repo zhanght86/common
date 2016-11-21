@@ -1,0 +1,37 @@
+.manu {
+	height: 25px;
+	line-height: 25px;
+	padding-right: 15px;
+	margin: 4px 0 1px 0;
+	font-size: 13px;
+	color: #555;
+	float: right;
+}
+.manu span {
+	margin: 0 2px;
+	color: #f40202;
+}
+.manu a {
+	margin: 0 2px;
+	border: #eee 1px solid;
+	color: #036cb4;
+	padding: 2px 5px 1px 5px;
+	text-decoration: none;
+	display: inline;
+	overflow: hidden;
+	clear: both;
+}
+.manu input {
+	width: 35px;
+	text-align: center;
+	border-top: 1px solid #fff;
+	border-left: 1px solid #fff;
+	border-right: 1px solid #fff;
+	border-bottom: 1px solid #d1d1d1;
+	display: inline;
+}
+.manu a:hover, .manu a:active {
+	border: #999 1px solid;
+	color: #666;
+	text-decoration: none;
+}

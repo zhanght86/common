@@ -1,0 +1,80 @@
+body {font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif","宋体"; font-size:12px; line-height:2; margin:0 10px;}
+a{ color:#1c94c4; text-decoration:underline; cursor: pointer;}
+h1{font-size:16px; font-family: "Agency FB","微软雅黑","黑体"; border-bottom:1px solid #555555; height:30px; line-height:30px; overflow: hidden;}
+input{ border:1px solid #888888;}
+button{border: 1px solid #c5dbec; background: #dfeffc url(images/ui-bg_glass_85_dfeffc_1x400.png) 50% 50% repeat-x;font-weight: bold; padding:1px 10px; margin:0 3px; color: #2e6e9e; cursor:pointer;}
+button:hover{border: 1px solid #79b7e7; background: #d0e5f5 url(images/ui-bg_glass_75_d0e5f5_1x400.png) 50% 50% repeat-x; color: #1d5987;}
+label.input{ display:block; float:left;width:100px; text-align:right; clear: left;}
+fieldset{ border:1px solid #dddddd;}
+fieldset:focus,fieldset:hover{ border:1px solid #e17009;}
+legend{ margin:0 5px;}
+/*message box style*/
+#message{ float:right; font-size:12px; text-align:right; color:#dd0000; margin:5px 10px 0 0;}
+/*zoom menu box*/
+#zoom{float:right; margin-top:10px;}
+#zoom span{ float:left; margin:0 5px; cursor: pointer;}
+/*tools button style*/
+#toolbar,.toolbar,div.turnpage{ height:24px;}
+#toolbar a,.toolbar a,div.turnpage a{display:block; float:left;border: 1px solid #c5dbec; background: #dfeffc url(images/ui-bg_glass_85_dfeffc_1x400.png) 50% 50% repeat-x;font-weight: bold; margin:0 3px; padding:0 10px; color: #2e6e9e; text-decoration:none; cursor:pointer; position: relative;}
+#toolbar a:hover,.toolbar a:hover,div.turnpage a:hover{border: 1px solid #79b7e7; background: #d0e5f5 url(images/ui-bg_glass_75_d0e5f5_1x400.png) 50% 50% repeat-x; color: #1d5987;}
+#toolbar span,.toolbar span{ float:left; margin:2px 1px 0 -2px;}
+/*page button style*/
+div.turnpage a{padding:3px;}
+div.turnpage span{ display: block; width:16px; height:16px; line-height:16px; text-align:center;}
+div.turnpage a.cur{border: 1px solid #fad42e; background: #fbec88 url(images/ui-bg_flat_55_fbec88_40x100.png) 50% 50% repeat-x; color: #363636;}
+
+.manage-table{ width:100%;}
+.manage-table caption{ font-weight: bold;}
+.manage-table th{ background: #f5f8f9 url(images/ui-bg_inset-hard_100_f5f8f9_1x100.png) 50% 50% repeat-x; font-weight: bold; color: #e17009; outline: none;}
+.manage-table tr.center th,.manage-table tr.center td{ text-align: center;}
+.manage-table th,.manage-table td{ border:1px solid #dddddd; padding-left:3px;}
+.gray{ background:#eeeeee; width:100%;}
+.reject{font-weight:bolder; color:#ee0000;}
+.pass{font-weight:bolder; color:#00aa00;}
+.photobox{width:270px; text-align: center; margin: auto;}
+#photo{ border:1px solid #dddddd; width:270px;height:360px; display: block; margin:0 auto}
+
+div.print{ width:210mm;height:145mm; margin:20px auto; background:url(images/printbg.gif) no-repeat;}
+div.print table{ width:180mm; border:1px solid #000000; text-align:left; border-collapse:collapse; font-size:12pt;}
+div.print table caption{ text-align:center; font-family:Arial,"黑体"; font-size:16pt;}
+div.print table td{ border:1px solid #000000; padding:0 1pt;}
+
+ul.tree{ margin:5px;}
+ul.tree li{ cursor: pointer; height:100%; line-height:100%; margin-top:8px;}
+ul.tree ul{ margin:-2px 0 5px 5px; padding:10px 0 0 15px; border-left:1px dashed #dddddd;}
+ul.tree span{ padding:1px; margin:0 2px; font-family:tahoma; vertical-align:middle;}
+ul.tree input{ border:0; vertical-align:middle;}
+ul.tree div.toggle{float:left; width:9px; height:9px; line-height:8px; text-align:center; margin:1px 3px 0 0; font-size:12px; font-weight: bold; border:1px solid #ffffff;}
+ul.tree div.border{ border:1px solid #888888; background:#eeeeee; color:#666666;}
+
+ul.menu{ background:#fafafa; border:1px solid #cccccc;}
+ul.menu li{ display: block; padding:0px 25px; border-bottom:1px solid #eeeeee; cursor: pointer; text-decoration: none; font-weight: bold;}
+ul.menu li:hover{ background:#eeeeee;}
+
+ul.list li{ border:1px solid #dddddd; margin:1px; padding:0 5px; cursor: move;margin-top:2px;}
+
+span.switch{ border:1px solid #d0e5f5; margin-right:30px; padding:0;}
+span.switch span.active{ margin:0; padding:5px 10px; background: #d0e5f5 url(images/ui-bg_glass_75_d0e5f5_1x400.png) 50% 50% repeat-x; color: #1d5987; color:#333333;}
+span.switch a{ margin:0; padding:8px 10px;}
+
+.space{margin:10px 0;}
+.hspace{margin:0 5px;}
+
+/*validate style*/
+.error{color: #cd0a0a;}
+span.error{ word-break: keep-all; white-space: nowrap;}
+.valid{ border:1px solid #5c9ccc;}
+.required{ border:1px solid #333333;}
+/*operational table style*/
+.selected{background: #fbec88 !important;}
+.hover{background:#fbfbfb; cursor: pointer;}
+.header{ cursor:pointer; background:#f5f8f9 url(images/bg.gif) -5px no-repeat !important; padding-left:10px !important;}
+.headerSortDown{ background-image:url(images/desc.gif) !important;}
+.headerSortUp{ background-image:url(images/asc.gif) !important;}
+/*scroll follow box*/
+.follow{border:solid #85b5d9; border-width:0 2px 2px 2px; background: #f5f8f9 url(images/ui-bg_inset-hard_100_f5f8f9_1x100.png) 50% 50% repeat-x; font-weight: bold; color: #e17009; padding:5px; margin:0; width:97%;}
+
+.tip{background:#333333;color:#ffffff;padding:0 10px;border-left:5px solid #333333;border-top:5px solid #ffffff}
+.linktip{background:#666666; border:1px solid #000000; padding:5px; width:200px; color:#ffffff;}
+/*loading style*/
+#loading{ display:block; width:100px; overflow: visible; word-break: keep-all; white-space: nowrap; margin:15px auto 0 auto; padding:0 18px; height:24px;background:url(images/loading.gif) no-repeat; color:#666666;}

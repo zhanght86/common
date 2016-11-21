@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+		"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+		"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="struts_common_platform" namespace="/other/common/platform" extends="struts-default">
+		<!--消息引擎-->
+		<action name="MessageEngineAction" class="com.sjdf.platform.notify.action.MessageEngineAction"/>
+
+		<!--页面内容管理-->
+		<action name="PageContentApiAction" class="com.sjdf.platform.pageContent.action.PageContentApiAction" />
+
+		<!--据模板远程调用管理-->
+		<action name="DataTemplateAction" class="com.sjdf.platform.api.action.DataTemplateAction"/>
+
+		<!--用户登录-->
+		<action name="LoginAction" class="com.sjdf.platform.rbac.action.LoginAction">
+			<!-- 登陆界面 -->
+			<result name="logout" type="redirect">/login.jsp</result>
+			<!-- 退出登陆界面,重定向 -->
+			<result name="login" type="redirect">/index.jsp</result>
+			<result name="redirectIndex" type="redirect">/admin/common/IndexAction!index.action</result>
+			<result name="input">/login.jsp</result>
+		</action>
+	</package>
+
+	<!-- 基础的项目默认设置 -->
+	<package name="platform-default" extends="struts-default" abstract="true">
+		<interceptors>
+			<!-- 自定义拦截器 -->
+			<!--权限拦截器-->
+			<interceptor name="PermissionInterceptor" class="com.sjdf.platform.common.filter.PermissionInterceptor"/>
+			<!--用户会话拦截器-->
+			<interceptor name="UserSessionInterceptor" class="com.sjdf.platform.common.filter.UserSessionInterceptor"/>
+
+			<!-- 定义拦截器栈 -->
+			<interceptor-stack name="platform-default-stack">
+				<interceptor-ref name="defaultStack"/>
+				<interceptor-ref name="UserSessionInterceptor"/>
+				<interceptor-ref name="PermissionInterceptor"/>
+			</interceptor-stack>
+		</interceptors>
+
+		<!--设置默认的拦截器-->
+		<default-interceptor-ref name="platform-default-stack"/>
+
+		<global-results>
+			<result name="-1" type="redirect">PermissionAction!error.action?tipMessageUrl=${tipMessageUrl}&amp;tipMessage=${tipMessage}</result>
+			<result name="success">/WEB-INF/templates/default/share/success.jsp</result>
+			<result name="error">/WEB-INF/templates/default/share/error.jsp</result>
+			<result name="warn">/WEB-INF/templates/default/share/warn.jsp</result>
+			<!-- 无用户信息 -->
+			<result name="userSessionFail">/WEB-INF/templates/default/share/userSessionFail.jsp</result>
+			<!-- 权限失败 -->
+			<result name="permissionFail">/WEB-INF/templates/default/share/permissionFail.jsp</result>
+		</global-results>
+	</package>
+
+	<!--需要权限的-->
+	<package name="struts_admin_common_platform" namespace="/admin/common/platform" extends="platform-default">
+		<!--权限信息管理-->
+		<action name="PermissionAction" class="com.sjdf.platform.rbac.action.PermissionAction">
+			<result name="list">/WEB-INF/templates/default/rbac/permission/list.jsp</result>
+			<result name="edit">/WEB-INF/templates/default/rbac/permission/edit.jsp</result>
+			<result name="update">/WEB-INF/templates/default/rbac/permission/update.jsp</result>
+		</action>
+
+		<!--权限组管理-->
+		<action name="PermissionNodeAction" class="com.sjdf.platform.rbac.action.PermissionNodeAction">
+			<result name="list">/WEB-INF/templates/default/rbac/permissionNode/list.jsp</result>
+			<result name="edit">/WEB-INF/templates/default/rbac/permissionNode/edit.jsp</result>
+			<result name="add">/WEB-INF/templates/default/rbac/permissionNode/add.jsp</result>
+		</action>
+
+		<!--角色管理-->
+		<action name="RoleAction" class="com.sjdf.platform.rbac.action.RoleAction">
+			<result name="list">/WEB-INF/templates/default/rbac/role/list.jsp</result>
+			<result name="add">/WEB-INF/templates/default/rbac/role/add.jsp</result>
+			<result name="edit">/WEB-INF/templates/default/rbac/role/edit.jsp</result>
+			<result name="show">/WEB-INF/templates/default/rbac/role/show.jsp</result>
+		</action>
+
+		<!--权限组与权限分配-->
+		<action name="GrantPermissionAction" class="com.sjdf.platform.rbac.action.grant.PermissionNodeXPermissionAction"/>
+
+		<!--角色分配权限-->
+		<action name="rolexpermission" class="com.sjdf.platform.rbac.action.grant.RoleXPermissionAction">
+			<result name="grant">/WEB-INF/templates/default/rbac/grant/rolexpermission/grant.jsp</result>
+		</action>
+
+		<!--用户管理-->
+		<action name="UserAction" class="com.sjdf.platform.rbac.action.UserAction">
+			<result name="list">/WEB-INF/templates/default/rbac/user/list.jsp</result>
+			<result name="add">/WEB-INF/templates/default/rbac/user/add.jsp</result>
+			<result name="editOther">/WEB-INF/templates/default/rbac/user/editOther.jsp</result>
+			<result name="updateOther">/WEB-INF/templates/default/rbac/user/updateOther.jsp</result>
+			<result name="editSelf">/WEB-INF/templates/default/rbac/user/editSelf.jsp</result>
+		</action>
+
+		<!--用户分配角色-->
+		<action name="userXrole" class="com.sjdf.platform.rbac.action.grant.UserXRoleAction">
+			<result name="grant">/WEB-INF/templates/default/rbac/grant/userxrole/grant.jsp</result>
+		</action>
+	</package>
+</struts>

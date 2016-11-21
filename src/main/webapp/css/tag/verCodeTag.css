@@ -1,0 +1,18 @@
+.none{display:none;}
+.fl{float:left;}
+.f18{font-size:18px;}
+.ml10{margin-left:10px;}
+.w100{width:100px;}
+.clearfix:after{content:'.';display:block;height:0;clear:both;visibility:hidden}
+.h26-text{height:26px;padding-left:5px;}
+.h26-btn{height:26px;background:url(../../images/memberInfo/addressBg.png) repeat-x; border:0; border:1px solid #ccc;padding:0 13px; cursor:pointer;}
+.h26-btn:hover{background:url(../../images/memberInfo/addressBgHover.png) repeat-x; border:1px solid #95bddf;}
+.c_bor{border:1px solid #ccc;}
+
+.verLine{margin:10px 0;line-height:30px; float:left; width:100%;}
+.verLine label{display:inline-block; font-size:14px; color:#555; text-align:right; min-width:100px;}
+.verLine label,.verLine b,.verLine em{line-height:30px;}
+.verInputText{width:200px; font-size:14px; font-family:verdana;}
+
+.errorTips{display:inline-block; height:24px; background:url(../../images/memberInfo/error.png) no-repeat left center; line-height:24px; padding-left:20px; color:#e00;}
+.correctTips{display:inline-block; height:24px; background:url(../../images/memberInfo/yes.png) no-repeat left center; line-height:24px; padding-left:20px; color:#555;}

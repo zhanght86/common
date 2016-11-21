@@ -1,0 +1,336 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>New Document</title>
+<meta name="Generator" content="EditPlus">
+<meta name="Author" content="">
+<meta name="Keywords" content="">
+<meta name="Description" content="">
+</head>
+<SCRIPT type="text/javascript">
+	var authority = '1,1';//用户操作的权限
+	var zNodes; //树节点，json格式，异步加载可设置为null或[] 
+	var zTreeObj; //树对象
+	var className = 'dark';
+	var urlStr = '/admin/showTreeNode.shtml'; //zTree树加载异步处理的url地址
+	var urlStrOption = '';//对于树节点的增删改和移动操作ajax异步处理的url地址
+	//var params = '';//ajax异步处理需要传入到服务端的数据
+	//树结构载入时的属性
+
+	var setting = {
+		async : {
+			enable : true,
+			url : getTempUrl
+		},
+		check : {
+			//设置 zTree 的节点上是否显示 checkbox / radio ,默认为false
+			enable : true
+		},
+		callback : {//回调函数，在这里可做一些回调处理 
+			onAsyncSuccess : zTreeOnAsyncSuccess,
+			beforeEditName : beforeEditName,
+			beforeRemove : beforeRemove,
+			beforeRename : beforeRename,
+			onRemove : onRemove,
+			onRename : onRename,
+			beforeDrag : beforeDrag,
+			onDrop : onDrop
+		},
+		//获取数据时节点Id和父id对应json的属性名,rootPId 为根节点的id
+		data : {
+			simpleData : {
+				enable : true,
+				idKey : "treenodeId",
+				pIdKey : "treenodeParentid",
+				rootPId : 0
+			},
+			//显示节点名称时对应的json数据里面的属性
+			key : {
+				name : "treenodeName"
+			}
+		},
+		//不显示图片
+		view : {
+			showIcon : false,
+			addHoverDom : addHoverDom,
+			removeHoverDom : removeHoverDom,
+			selectedMulti : false,
+			fontCss : getFontCss
+		},
+		//可以修改zTree
+		edit : {
+			enable : true,
+			editNameSelectAll : true,
+			showRenameBtn : true,
+			renameTitle : "编辑节点",
+			removeTitle : "删除节点",
+			//允许拖拽
+			drag : {
+				autoExpandTrigger : true,
+				prev : dropPrev,
+				inner : false,
+				next : dropNext
+			}
+		}
+	};
+
+	//修改节点之前触发的函数
+	function beforeEditName(treeId, treeNode) {
+		className = (className === "dark" ? "" : "dark");
+		var zTree = $.fn.zTree.getZTreeObj("permission_tree");
+		zTree.selectNode(treeNode);
+		return confirm("确认进入 节点-- " + treeNode.treenodeName + " 的编辑状态吗？");
+	}
+	//删除节点之前触发的函数
+	function beforeRemove(treeId, treeNode) {
+		className = (className === "dark" ? "" : "dark");
+		var zTree = $.fn.zTree.getZTreeObj("permission_tree");
+		zTree.selectNode(treeNode);
+		return confirm("确认删除 节点 -- " + treeNode.treenodeName + " 吗？");
+	}
+	//用于捕获删除节点之后的事件回调函数。
+	//如果用户设置了 beforeRemove 回调函数，并返回 false，将无法触发 onRemove 事件回调函数。
+	function onRemove(e, treeId, treeNode) {
+		//操作数据库，删除相应节点并返回到本页面
+		alert("删除节点--" + treeNode.treenodeName + "成功！");
+		//var str1 = '{ "name": "cxh", "sex": "man" }'; 
+		//var obj = JSON.parse(str1); 
+		urlStrOption = '/admin/delTreeNode.shtml';
+		var params = "temTreenode.treenodeName=" + treeNode.treenodeName
+				+ "&temTreenode.treenodeId=" + treeNode.treenodeId
+				+ "&temTreenode.treenodeParentid=" + treeNode.treenodeParentid;
+		zTreeOption(urlStrOption, params);
+	}
+
+	//用于捕获节点编辑名称结束（Input 失去焦点 或 按下 Enter 键）之后，更新节点名称数据之前的事件回调函数，并且根据返回值确定是否允许更改名称的操作
+	function beforeRename(treeId, treeNode, newName) {
+		className = (className === "dark" ? "" : "dark");
+		var zTree = $.fn.zTree.getZTreeObj("permission_tree");
+		if (newName.length == 0) {
+			alert("节点名称不能为空.");
+			return false;
+		} else {
+			if (confirm("确认保存 节点 -- " + newName + " 吗？")) {
+				alert("保存成功");
+				return true;
+			} else {
+				;
+				zTree.selectNode(treeNode);
+				return false;
+			}
+		}
+
+	}
+
+	function onRename(e, treeId, treeNode) {
+		//操作数据库，进行节点重命名
+		urlStrOption = '/admin/modTreeNode.shtml';
+		var params = "temTreenode.treenodeName=" + treeNode.treenodeName
+				+ "&temTreenode.treenodeId=" + treeNode.treenodeId
+				+ "&temTreenode.treenodeParentid=" + treeNode.treenodeParentid;
+		zTreeOption(urlStrOption, params);
+	}
+
+	function setEdit() {
+		var zTree = $.fn.zTree.getZTreeObj("permission_tree");
+		//将存放权限的字符串分解出来和单个权限一一对应
+		arr = authority.split(",");
+		//删除权限
+		if (1 == arr[0]) {
+			remove = true;
+		} else {
+			remove = false;
+		}
+		//修改权限
+		if (1 == arr[1]) {
+			rename = true;
+		} else {
+			rename = false;
+		}
+		zTree.setting.edit.showRemoveBtn = remove;
+		zTree.setting.edit.showRenameBtn = rename;
+	}
+
+	function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
+		zNodes = treeNode;
+	};
+
+	//增加节点的计数器
+	var newCount = 1;
+	function addHoverDom(treeId, treeNode) {
+		var sObj = $("#" + treeNode.tId + "_span");
+		if (treeNode.editNameFlag
+				|| $("#addBtn_" + treeNode.treenodeId).length > 0)
+			return;
+		var addStr = "<button type='button' class='add' id='addBtn_"
+				+ treeNode.treenodeId
+				+ "' title='增加节点' onfocus='this.blur();'></button>";
+		sObj.append(addStr);
+		var btn = $("#addBtn_" + treeNode.treenodeId);
+		if (btn)
+			btn.bind("click", function() {
+				if (confirm("确认在节点--" + treeNode.treenodeName + "增加节点吗？")) {
+					urlStrOption = '/admin/addTreeNode.shtml';
+					var params = "temTreenode.treenodeName="
+							+ treeNode.treenodeName
+							+ "&temTreenode.treenodeId=" + treeNode.treenodeId
+							+ "&temTreenode.treenodeParentid="
+							+ treeNode.treenodeParentid;
+					alert(zTreeOption(urlStrOption, params));
+					var zTree = $.fn.zTree.getZTreeObj("permission_tree");
+
+					zTree.addNodes(treeNode, {
+						treenodeId : (0),
+						treenodeParentid : treeNode.treenodeId,
+						treenodeName : "new node"
+					});
+					return false
+				}
+				;
+			});
+	};
+
+	//绑定remove事件到删除按钮
+	function removeHoverDom(treeId, treeNode) {
+		$("#addBtn_" + treeNode.treenodeId).unbind().remove();
+	};
+
+	//<!--拖拽移动功能
+	function dropPrev(treeId, nodes, targetNode) {
+		//只是本节点的同级节点才可以移动
+		for ( var i = 0, l = curDragNodes.length; i < l; i++) {
+			var curPNode = curDragNodes[i];
+			var temNode = curPNode.getParentNode().children;
+			for ( var i = 0; i < temNode.length; i++) {
+				if (targetNode == temNode[i]) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	function dropNext(treeId, nodes, targetNode) {
+		//只是本节点的同级节点才可以移动
+		for ( var i = 0, l = curDragNodes.length; i < l; i++) {
+			var curPNode = curDragNodes[i];
+			var temNode = curPNode.getParentNode().children;
+			for ( var i = 0; i < temNode.length; i++) {
+				if (targetNode == temNode[i]) {
+					return true;
+				}
+			}
+
+		}
+		return false;
+	}
+
+	var curDragNodes;
+	function beforeDrag(treeId, treeNodes) {
+		curDragNodes = treeNodes;
+		return true;
+	}
+
+	function onDrop(event, treeId, treeNodes, targetNode, moveType) {
+		//操作数据库，保存拖拽信息
+	}
+
+	//拖拽移动位置限制
+
+	//-->
+
+	//<!--搜索数据
+	function focusKey(e) {
+		if (key.hasClass("empty")) {
+			key.removeClass("empty");
+		}
+	}
+
+	function blurKey(e) {
+		if (key.get(0).value === "") {
+			key.addClass("empty");
+		}
+	}
+	var nodeList = [], fontCss = {}, lastValue = "";
+
+	function searchNode(e) {
+		var zTree = $.fn.zTree.getZTreeObj("permission_tree");
+		var value = $.trim(key.get(0).value);
+		var keyType = "treenodeName";
+		if (key.hasClass("empty")) {
+			value = "";
+		}
+		if (lastValue === value)
+			return;
+		updateNodes(false);
+		$("#key")[0].focus();
+		lastValue = value;
+		if (value === "")
+			return;
+		nodeList = zTree.getNodesByParamFuzzy(keyType, value);
+		updateNodes(true);
+		$("#key")[0].focus(function() {
+			value = "";
+		});
+	}
+	function updateNodes(highlight) {
+		var zTree = $.fn.zTree.getZTreeObj("permission_tree");
+		for ( var i = 0, l = nodeList.length; i < l; i++) {
+			nodeList[i].highlight = highlight;
+			zTree.updateNode(nodeList[i], highlight);
+			zTree.checkNode(nodeList[i], highlight, highlight);
+			zTree.expandNode(nodeList[i], true, true);
+		}
+		$("#key")[0].focus(function() {
+			$("#key").value = 'da';
+		});
+	}
+	function getFontCss(treeId, treeNode) {
+		return (!!treeNode.highlight) ? {
+			color : "#A60000",
+			"font-weight" : "bold"
+		} : {
+			color : "#333",
+			"font-weight" : "normal"
+		};
+	}
+	//-->
+
+	//处理zTree异步处理的url
+	function getTempUrl(treeId, treeNode) {
+		return urlStr;
+	}
+
+	var key;
+
+	//加载树信息方法
+	function inntTreeNodes() {
+		zTreeObj = $.fn.zTree.init($("#permission_tree"), setting, zNodes);//实例化后直接返回树对象
+		key = $("#key");
+		key.bind("focus", focusKey).bind("blur", blurKey).bind(
+				"propertychange", searchNode).bind("input", searchNode);
+		setEdit();
+	}
+
+	//对树结构进行增删改的异步处理ajax//返回节点在数据库的id
+	function zTreeOption(doUrl, backParams) {
+		var tempdata;
+		$.ajax({
+			async : false,
+			url : doUrl,
+			type : 'post',
+			dataType : 'json',
+			data : backParams,
+			success : function(data) {
+				tempdata = data;
+			}
+		});
+		return tempdata;
+	}
+	//提前加载页面树信息
+	$(document).ready(inntTreeNodes)
+</SCRIPT>
+<body>
+
+</body>
+</html>

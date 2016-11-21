@@ -1,0 +1,88 @@
+
+/* = = = = = = =  全 局 样 式 = = = = = = */
+
+*{padding:0px;margin:0px;list-style:none;}
+
+body{font:Arial, Helvetica, sans-serif;font-size:12px;color:#000;}
+
+img{border:0px;}
+
+a{text-decoration:none;color:#000;}
+
+ul,li,p{margin:0px;padding:0px;list-style:none;}
+
+.web{width:1003px;margin:0 auto;height:100%;overflow:auto;}
+
+.inpt_text{width:230px;}
+
+.inpt_text input{height:19px;color:#333333;border:#bebebe solid 1px;border-right:#d9d9d9 solid 1px;border-bottom:#d9d9d9 solid 1px;}
+
+.inpt_text textarea{color:#333333;border:#bebebe solid 1px;border-right:#d9d9d9 solid 1px;border-bottom:#d9d9d9 solid 1px;}
+
+.inpt_bottn input{padding-top:10px}
+
+.inpt_text_2 input{height:19px;color:#333333;border:#bebebe solid 1px;border-right:#d9d9d9 solid 1px;border-bottom:#d9d9d9 solid 1px;}
+
+.inpt_text_2 select{color:#333333;border:#bebebe solid 1px;border-right:#d9d9d9 solid 1px;border-bottom:#d9d9d9 solid 1px;}
+
+.inpt_text_2 span{margin-left:15px;color:#f00;}
+
+.inpt_text_2 textarea{color:#333333;border:#bebebe solid 1px;border-right:#d9d9d9 solid 1px;border-bottom:#d9d9d9 solid 1px;}
+
+.jl{height:13px;overflow:hidden;width:665px;margin:0 auto;clear:both;}
+
+.kzmb_table{width:680px;height:100%;overflow:auto;margin:0 auto;border:#c0e1f3 solid 1px;background:#f2faff;}
+
+.kzmb_table_2{width:680px;height:100%;overflow:auto;margin:0 auto;margin-top:10px;margin-bottom:10px;}
+
+.kzmb_table_2 table{border:#c0e1f3 solid 1px;border-bottom:none;border-right:none;}
+
+.kzmb_table_3{width:99%;height:100%;overflow:auto;margin:0 auto;margin-top:10px;margin-bottom:10px;}
+
+.kzmb_table_3 table{border:#cccccc solid 1px;border-bottom:none;border-right:none;}
+
+.kzmb_table_3 td{line-height:34px;}
+
+.kzmb_table_4{width:665px;height:100%;overflow:auto;margin:0 auto;margin-top:10px;margin-bottom:10px;}
+
+.kzmb_table_4 td{line-height:34px;text-align:center;}
+
+.kzmb_nm{height:36px;font-weight:bold;}
+
+.kzmb_nm td{line-height:36px; border-bottom:#cccccc solid 1px;border-right:#cccccc solid 1px;}
+
+.kzmb_nm_2{height:30px;}
+
+.kzmb_nm_2 td{line-height:30px;background:#ffffff; border-bottom:#c0e1f3 solid 1px;border-right:#c0e1f3 solid 1px;}
+
+.kzmb_nm_3{height:36px;font-weight:bold;}
+
+.kzmb_nm_3 td{line-height:36px;text-align:center;background:#eeeeee; border-bottom:#cccccc solid 1px;border-right:#cccccc solid 1px;}
+
+.kzmb_nr{height:30px;}
+
+.kzmb_nr td{line-height:30px;text-align:center;border-bottom:#cccccc solid 1px;border-right:#cccccc solid 1px;background:#ffffff}
+
+/* = = = = = = =  各 大 块 的 分 栏 = = = = = = */
+
+.mn_tit{font-weight:bold;text-align:right; background:#eeeeee}
+
+.mn_tit span{display:block;margin:0px 10px;font-size:12px; float:right}
+
+.vh_wz{text-align:left;font-weight:300;padding-left:12px;}
+.vh_wz button{text-align:center; padding:0 15px; line-height:25px; height:25px;}
+.vh_wz a{margin-left:13px;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

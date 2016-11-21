@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- 短信发送自动任务 -->
+    <bean id="clearMessageTaskTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail">
+            <bean class="org.springframework.scheduling.quartz.JobDetailBean">
+                <property name="jobClass" value="com.sjdf.platform.message.task.ClearMessageTask"/>
+                <property name="jobDataAsMap">
+                    <map>
+                        <entry key="messageService" value-ref="commonMessageServiceImpl"/>
+                        <entry key="logService" value-ref="commonLogService"/>
+                        <entry key="businessUserIdList">
+                            <list>
+                                <value>ketqi</value>
+                            </list>
+                        </entry>
+                    </map>
+                </property>
+            </bean>
+        </property>
+        <!--每月15号凌晨3点15分触发-->
+        <property name="cronExpression" value="0 15 3 15 * ?"/>
+        <!--<property name="cronExpression" value="0 0/1 * * * ?"/>-->
+    </bean>
+
+    <!-- SchedulerFactory -->
+    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="clearMessageTaskTrigger"/>
+            </list>
+        </property>
+    </bean>
+</beans>
